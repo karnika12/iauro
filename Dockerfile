@@ -1,10 +1,18 @@
-FROM node:10
-
+FROM node:dubnium
+ENV NODE_OPTIONS --max-old-space-size=2048
 WORKDIR /app
-COPY . /app
-COPY package.json /app
-RUN npm install
-COPY . /app
+
+COPY ./package* ./
+
+RUN ls -al
+
+RUN npm install && \
+    npm cache clean --force
+
+COPY . .
+
 EXPOSE 51005
 
-CMD [ "node", "node_server.js"]
+CMD ["node", "index.js"]
+
+
